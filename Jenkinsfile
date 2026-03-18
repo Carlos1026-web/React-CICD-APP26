@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    environment {
+        NETLIFY_SITE_ID = 'aad182b3-161b-44bd-b993-789b9433e5f1'
+        Netlify_AUTH_TOKEN = credentials('myreactapp')
+    }
     stages {
         stage('Build'){
             agent {
                 docker {
-                    image 'node:22.14.0-slim'
+                    image 'node:22.14.0-alpine'
                     reuseNode true
                     }
             }
@@ -22,7 +26,7 @@ pipeline {
         stage('Test'){
             agent {
                 docker {
-                    image 'node:22.14.0-slim'
+                    image 'node:22.14.0-alpine'
                     reuseNode true
                     }
             }
@@ -36,7 +40,7 @@ pipeline {
         stage('Deploy'){
             agent {
                 docker {
-                    image 'node:22.14.0-slim'
+                    image 'node:22.14.0-alpine'
                     reuseNode true
                     }
             }
@@ -44,6 +48,9 @@ pipeline {
                 sh '''
                     npm install netlify-cli
                     node_modules/.bin/netlify --version
+                    echo "Site ID: $NETLIFY_SITE_ID"
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --site --prod --dir=build
                 '''
             }
         }
