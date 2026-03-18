@@ -4,7 +4,7 @@ pipeline {
         stage('Build'){
             agent {
                 docker {
-                    image 'docker pull node:22.14.0-slim'
+                    image 'node:22.14.0-slim'
                     reuseNode true
                     }
             }
@@ -22,7 +22,7 @@ pipeline {
         stage('Test'){
             agent {
                 docker {
-                    image 'docker pull node:22.14.0-slim'
+                    image 'node:22.14.0-slim'
                     reuseNode true
                     }
             }
@@ -30,6 +30,20 @@ pipeline {
                 sh '''
                     test -f build/index.html
                     npm test
+                '''
+            }
+        }
+        stage('Deploy'){
+            agent {
+                docker {
+                    image 'node:22.14.0-slim'
+                    reuseNode true
+                    }
+            }
+            steps {
+                sh '''
+                    npm install netlify-cli
+                    node_modules/.bin/netlify --version
                 '''
             }
         }
