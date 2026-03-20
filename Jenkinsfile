@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         NETLIFY_SITE_ID = 'aad182b3-161b-44bd-b993-789b9433e5f1'
-        Netlify_AUTH_TOKEN = credentials('myreactapp')
+        NETLIFY_AUTH_TOKEN = credentials('myreactapp')
     }
     stages {
         stage('Build'){
@@ -50,7 +50,7 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --site --prod --dir=build
+                    node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod --dir=build
                 '''
             }
         }
