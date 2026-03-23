@@ -5,6 +5,13 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('myreactapp')
     }
     stages {
+        stage('Docker'){
+            steps {
+                sh '''
+                    docker build -t my-docker-image .
+                '''
+            }
+        }
         stage('Build'){
             agent {
                 docker {
@@ -46,11 +53,16 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install netlify-cli
-                    node_modules/.bin/netlify --version
+                    # npm install netlify-cli
+                    # node_modules/.bin/netlify --version
+                    # echo "Site ID: $NETLIFY_SITE_ID"
+                    # node_modules/.bin/netlify status
+                    # node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod --dir=build
+
+                    netlify --version
                     echo "Site ID: $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod --dir=build
+                    netlify status
+                    netlify deploy --prod --dir=build
                 '''
             }
         }
