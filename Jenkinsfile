@@ -1,9 +1,9 @@
 pipeline {
-    agent any
-    environment {
-        NETLIFY_SITE_ID = 'aad182b3-161b-44bd-b993-789b9433e5f1'
-        NETLIFY_AUTH_TOKEN = credentials('myreactapp')
-    }
+    // agent any
+    // environment {
+    //     NETLIFY_SITE_ID = 'aad182b3-161b-44bd-b993-789b9433e5f1'
+    //     NETLIFY_AUTH_TOKEN = credentials('myreactapp')
+    // }
     stages {
         // stage('Docker'){
         //     steps {
@@ -12,38 +12,38 @@ pipeline {
         //         '''
         //     }
         // }
-        // stage('Build'){
-        //     agent {
-        //         docker {
-        //             image 'node:24.14.0-alpine'
-        //             reuseNode true
-        //             }
-        //     }
-        //     steps {
-        //         sh '''
-        //             ls -la
-        //             node --version
-        //             npm --version
-        //             npm install
-        //             CI='' npm run build
-        //             ls -la
-        //         '''
-        //     }
-        // }
-        // stage('Test'){
-        //     agent {
-        //         docker {
-        //             image 'node:24.14.0-alpine'
-        //             reuseNode true
-        //             }
-        //     }
-        //     steps {
-        //         sh '''
-        //             test -f build/index.html
-        //             npm test
-        //         '''
-        //     }
-        // }
+        stage('Build'){
+            agent {
+                docker {
+                    image 'node:24.14.0-alpine'
+                    reuseNode true
+                    }
+            }
+            steps {
+                sh '''
+                    ls -la
+                    node --version
+                    npm --version
+                    npm install
+                    CI='' npm run build
+                    ls -la
+                '''
+            }
+        }
+        stage('Test'){
+            agent {
+                docker {
+                    image 'node:24.14.0-alpine'
+                    reuseNode true
+                    }
+            }
+            steps {
+                sh '''
+                    test -f build/index.html
+                    npm test
+                '''
+            }
+        }
         // stage('Deploy'){
         //     agent {
         //         docker {
@@ -78,7 +78,6 @@ pipeline {
             }
             steps {
                     withCredentials([usernamePassword(credentialsId: 'reactAWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    // some block
 
                     sh '''
                         aws --version
