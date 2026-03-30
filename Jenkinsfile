@@ -102,8 +102,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'reactAWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                     aws --version
-                    aws ecs register-task-definition --cli-input-json file://aws/task-definition.json
-                    
+                    # aws ecs register-task-definition --cli-input-json file://aws/task-definition.json
                     aws ecs update-service --cluster my-react-cluster-20260330 --service my-react-service-20260330-service-absp0ado --task-definition my-react-task-definition-json-20260330:1
                     '''
                 }
