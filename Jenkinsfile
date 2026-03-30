@@ -3,7 +3,7 @@ pipeline {
     environment {
         // NETLIFY_SITE_ID = 'aad182b3-161b-44bd-b993-789b9433e5f1'
         // NETLIFY_AUTH_TOKEN = credentials('myreactapp')
-        AWS_DEFAULT_REGION = 'us-east-2'
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
     stages {
         // stage('Docker'){
