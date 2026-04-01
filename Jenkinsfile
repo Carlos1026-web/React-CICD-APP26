@@ -3,7 +3,7 @@ pipeline {
     environment {
         // NETLIFY_SITE_ID = 'aad182b3-161b-44bd-b993-789b9433e5f1'
         // NETLIFY_AUTH_TOKEN = credentials('myreactapp')
-        AWS_DOCKER_REGISTRY = '806169617511.dkr.ecr.us-east-1.amazonaws.com/my-react-app'
+        AWS_DOCKER_REGISTRY = '806169617511.dkr.ecr.us-east-1.amazonaws.com'
         
         //ECR repository name
         APP_NAME = 'my-react-app' 
