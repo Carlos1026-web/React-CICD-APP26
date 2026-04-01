@@ -90,7 +90,8 @@ pipeline {
         //             }
         //         }
         // }
-        stage('Deploy to AWS ECS') {
+
+        stage('Build My Image') {
             agent {
                 docker {
                     image 'amazon/aws-cli'
@@ -99,17 +100,32 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'reactAWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    sh '''
-                    aws --version
-
-                    yum install jq -y
-
-                    LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition.json | jq -r '.taskDefinition.revision')
-                    aws ecs update-service --cluster my-react-cluster-20260330 --service my-react-service-20260330-service-absp0ado --task-definition my-react-task-definition-json-20260330:2
-                    '''
-                }
+                dnf install -y docker
+                docker build -t my-docker-image .
+                docker images
             }
         }
+
+        // stage('Deploy to AWS ECS') {
+        //     agent {
+        //         docker {
+        //             image 'amazon/aws-cli'
+        //             reuseNode true
+        //             args '-u root --entrypoint=""'
+        //         }
+        //     }
+        //     steps {
+        //         withCredentials([usernamePassword(credentialsId: 'reactAWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+        //             sh '''
+        //             aws --version
+
+        //             yum install jq -y
+
+        //             LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition.json | jq -r '.taskDefinition.revision')
+        //             aws ecs update-service --cluster my-react-cluster-20260330 --service my-react-service-20260330-service-absp0ado --task-definition my-react-task-definition-json-20260330:2
+        //             '''
+        //         }
+        //     }
+        // }
     }
 }
