@@ -110,6 +110,7 @@ pipeline {
                     sh '''
 
                     dnf install -y docker
+                    dnf install -y docker-cli
                     docker build -t $AWS_DOCKER_REGISTRY/$APP_NAME .
 
                     # access ECR, username is AWS, get temporary password
