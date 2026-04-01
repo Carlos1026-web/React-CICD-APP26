@@ -100,9 +100,11 @@ pipeline {
                 }
             }
             steps{
-                dnf install docker -y
-                docker build -t my-docker-image .
-                docker images
+                sh '''
+                    dnf install docker -y
+                    docker build -t my-docker-image .
+                    docker images
+                '''
             }
         }
 
