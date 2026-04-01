@@ -100,7 +100,7 @@ pipeline {
         stage('Build My Image'){
             agent{
                 docker{
-                    image 'amazon/aws-cli'
+                    image 'docker:26-cli'
                     reuseNode true
                     args '-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=""'
                 }
@@ -110,7 +110,6 @@ pipeline {
                     sh '''
 
                     dnf install -y docker
-                    dnf install -y docker-cli
                     docker build -t $AWS_DOCKER_REGISTRY/$APP_NAME .
 
                     # access ECR, username is AWS, get temporary password
