@@ -109,7 +109,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'reactAWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
 
-                    dnf install docker -y
+                    # dnf install docker -y
+
+                    apk add --no-cache aws-cli
+
                     docker build -t $AWS_DOCKER_REGISTRY/$APP_NAME .
 
                     # access ECR, username is AWS, get temporary password
