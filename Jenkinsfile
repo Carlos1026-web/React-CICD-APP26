@@ -108,6 +108,8 @@ pipeline {
             steps{
                 withCredentials([usernamePassword(credentialsId: 'reactAWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
+                    aws --version
+
                     dnf install -y docker
                     docker build -t $AWS_DOCKER_REGISTRY/$APP_NAME .
 
